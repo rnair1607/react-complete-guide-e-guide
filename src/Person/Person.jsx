@@ -1,5 +1,7 @@
 import React from "react";
 
-export default function Person() {
-  return <div></div>;
-}
+const person = ({ name }) => {
+  return <div>Hello {name}</div>;
+};
+
+export default person;
