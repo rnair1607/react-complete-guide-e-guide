@@ -1,5 +1,5 @@
 import React, { Component, useState } from "react";
-import "./App.css";
+import classes from "./App.css";
 import Person from "./Person/Person";
 
 class App extends Component {
@@ -37,7 +37,7 @@ class App extends Component {
       cursor: "pointer",
     };
     return (
-      <div className="App">
+      <div className={classes.App}>
         <h1>Hi, I'm React App</h1>
         {this.state.showPersons ? (
           <button style={style} onClick={this.togglePersons}>
