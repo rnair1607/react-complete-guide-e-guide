@@ -1,43 +1,77 @@
-import React, { useState } from "react";
+import React, { Component, useState } from "react";
 import "./App.css";
 import Person from "./Person/Person";
+import Radium from "radium";
 
-const App = (props) => {
-  const [personsState, setPersons] = useState({
+class App extends Component {
+  state = {
     persons: [
-      { name: "Rahul", age: 23 },
-      { name: "Rohan", age: 28 },
+      { id: 1, name: "Rahul", age: 23 },
+      { id: 3, name: "Roman", age: 25 },
+      { id: 2, name: "Rohan", age: 27 },
     ],
-  });
-
-  const switchHandler = () => {
-    setPersons({
-      persons: [
-        { name: "Roman", age: 29 },
-        { name: "Rohan", age: 28 },
-      ],
-    });
+    showPersons: false,
   };
-  return (
-    <div className="App">
-      <h1>Hi, I'm React App</h1>
-      <button onClick={switchHandler}>Button</button>
-      <Person
-        name={personsState.persons[0].name}
-        age={personsState.persons[0].age}
-      />
-      <Person
-        name={personsState.persons[1].name}
-        age={personsState.persons[1].age}
-      />
-    </div>
-  );
+
+  deletePerson = (personIndex) => {
+    // const personArray = this.state.persons.slice();
+    const persons = [...this.state.persons];
+    persons.splice(personIndex, 1);
+    this.setState({ persons: persons });
+  };
+
+  togglePersons = () => {
+    this.setState({
+      showPersons: !this.state.showPersons,
+    });
+    console.log(this.state.showPersons);
+  };
+
+  render() {
+    let { persons } = this.state;
+    const style = {
+      backgroundColor: "green",
+      color: "white",
+      font: "inherit",
+      border: "1px solid blue",
+      padding: "8px",
+      cursor: "pointer",
+      ":hover": {
+        backgroundColor: "lightgreen",
+        color: "black",
+      },
+    };
+    return (
+      <div className="App">
+        <h1>Hi, I'm React App</h1>
+        {this.state.showPersons ? (
+          <button style={style} onClick={this.togglePersons}>
+            Hide
+          </button>
+        ) : (
+          <button style={style} onClick={this.togglePersons}>
+            Show
+          </button>
+        )}
+        {persons.map((person, index) => {
+          return (
+            <Person
+              name={person.name}
+              click={() => this.deletePerson(index)}
+              age={person.age}
+              key={person.id}
+            />
+          );
+        })}
+      </div>
+    );
+  }
 
   // return React.createElement(
   //   "div",
   //   { className: "App" },
   //   React.createElement("h1", null, "Hi")
   // );
-};
+}
 
-export default App;
+export default Radium(App);

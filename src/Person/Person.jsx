@@ -1,13 +1,15 @@
 import React from "react";
+import "./Person.css";
+import Radium from "radium";
 
-const person = ({ name, children, age }) => {
+const person = ({ name, age, click }) => {
   return (
-    <div>
+    <div className="Person">
       <p>Hello {name}.</p>
       {age}
-      <p>{children}</p>
+      <button onClick={click}>Delete</button>
     </div>
   );
 };
 
-export default person;
+export default Radium(person);
