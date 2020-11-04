@@ -1,6 +1,7 @@
 import React from "react";
 
 const cockpit = ({ showPersons, style, togglePersons }) => {
+  console.log("[Cockpit.js] rendering");
   return (
     <React.Fragment>
       <h1>Hi, I'm React App</h1>

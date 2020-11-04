@@ -1,14 +1,31 @@
-import React from "react";
+import React, { Component } from "react";
 import classes from "./Person.css";
 
-const person = ({ name, age, click }) => {
-  return (
-    <div className={classes.Person}>
-      <p>Hello {name}.</p>
-      {age}
-      <button onClick={click}>Delete</button>
-    </div>
-  );
-};
+class Person extends Component {
+  constructor(props) {
+    super(props);
 
-export default person;
+    this.state = {};
+  }
+
+  // ----------------------------LifeCycle hooks-------------------------------
+  static getDerivedStateFromProps(props, state) {
+    console.log("[Person.js] getDerivedStateFromProps", props);
+    return state;
+  }
+
+  //---------------------------------Render-------------------------------------
+  render() {
+    const { name, age, click } = this.props;
+    console.log("[Person.js] rendering");
+    return (
+      <div className={classes.Person}>
+        <p>Hello {name}.</p>
+        {age}
+        <button onClick={click}>Delete</button>
+      </div>
+    );
+  }
+}
+
+export default Person;
