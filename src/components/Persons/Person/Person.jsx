@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import classes from "./Person.css";
+import Auxilliary from "../../../hoc/Auxilliary";
+import WithClass from "../../../hoc/WithClass";
 
 class Person extends Component {
   constructor(props) {
@@ -19,11 +21,11 @@ class Person extends Component {
     const { name, age, click } = this.props;
     console.log("[Person.js] rendering");
     return (
-      <div className={classes.Person}>
+      <WithClass classes={classes.Person}>
         <p>Hello {name}.</p>
         {age}
         <button onClick={click}>Delete</button>
-      </div>
+      </WithClass>
     );
   }
 }

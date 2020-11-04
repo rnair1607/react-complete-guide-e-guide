@@ -14,6 +14,7 @@ class App extends Component {
         { id: 2, name: "Rohan", age: 27 },
       ],
       showPersons: false,
+      showCockpit: true,
     };
   }
 
@@ -51,8 +52,16 @@ class App extends Component {
     });
   };
 
+  toggleCockpit = () => {
+    this.setState({
+      showCockpit: !this.state.showCockpit,
+    });
+  };
+
   //---------------------------------Render-------------------------------------
   render() {
+    const { showPersons, persons, showCockpit } = this.state;
+
     console.log("[App.js] render");
 
     const style = {
@@ -66,16 +75,25 @@ class App extends Component {
     };
     return (
       <div className={classes.App}>
-        <Cockpit
-          showPersons={this.state.showPersons}
-          style={style}
-          togglePersons={this.togglePersons}
-        />
-        {this.state.showPersons ? (
-          <Persons
-            persons={this.state.persons}
-            deletePerson={this.deletePerson}
+        {showCockpit ? (
+          <button onClick={this.toggleCockpit} style={style}>
+            Remove cockpit
+          </button>
+        ) : (
+          <button onClick={this.toggleCockpit} style={style}>
+            Show cockpit
+          </button>
+        )}
+        {showCockpit ? (
+          <Cockpit
+            persons={persons}
+            showPersons={showPersons}
+            style={style}
+            togglePersons={this.togglePersons}
           />
+        ) : null}
+        {showPersons && showCockpit ? (
+          <Persons persons={persons} deletePerson={this.deletePerson} />
         ) : null}
       </div>
     );
