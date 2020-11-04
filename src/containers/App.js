@@ -1,6 +1,7 @@
 import React, { Component, useState } from "react";
 import classes from "./App.css";
-import Person from "./Person/Person";
+import Persons from "../components/Persons/Persons";
+import Cockpit from "../components/Cockpit/Cockpit";
 
 class App extends Component {
   state = {
@@ -35,29 +36,19 @@ class App extends Component {
       border: "1px solid blue",
       padding: "8px",
       cursor: "pointer",
+      marginBottom: "10px",
     };
     return (
       <div className={classes.App}>
-        <h1>Hi, I'm React App</h1>
-        {this.state.showPersons ? (
-          <button style={style} onClick={this.togglePersons}>
-            Hide
-          </button>
-        ) : (
-          <button style={style} onClick={this.togglePersons}>
-            Show
-          </button>
-        )}
-        {persons.map((person, index) => {
-          return (
-            <Person
-              name={person.name}
-              click={() => this.deletePerson(index)}
-              age={person.age}
-              key={person.id}
-            />
-          );
-        })}
+        <Cockpit
+          showPersons={this.state.showPersons}
+          style={style}
+          togglePersons={this.togglePersons}
+        />
+        <Persons
+          persons={this.state.persons}
+          deletePerson={this.deletePerson}
+        />
       </div>
     );
   }
