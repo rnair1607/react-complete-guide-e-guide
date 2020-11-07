@@ -38,7 +38,7 @@ class Persons extends Component {
 
   //---------------------------------Render-------------------------------------
   render() {
-    const { persons, deletePerson } = this.props;
+    const { persons, deletePerson, isAuth } = this.props;
     console.log("[Persons.js] rendering");
     return persons.map((person, index) => {
       return (

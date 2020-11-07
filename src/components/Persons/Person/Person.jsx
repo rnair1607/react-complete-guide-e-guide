@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
+import AuthContext from "../../../context/auth-context";
 import classes from "./Person.css";
 import Auxilliary from "../../../hoc/Auxilliary";
 import withClass from "../../../hoc/WithClass";
@@ -8,7 +9,7 @@ import withClass from "../../../hoc/WithClass";
 class Person extends Component {
   constructor(props) {
     super(props);
-
+    this.inputElementRef = React.createRef();
     this.state = {};
   }
 
@@ -19,25 +20,28 @@ class Person extends Component {
   }
 
   componentDidMount() {
-    this.inputElement.focus();
+    // this.inputElement.focus();
+    this.inputElementRef.current.focus();
   }
 
   //---------------------------------Render-------------------------------------
   render() {
-    const { name, age, click } = this.props;
+    const { name, age, click, isAuth } = this.props;
     console.log("[Person.js] rendering");
     return (
-      <Auxilliary>
-        <p>Hello {name}.</p>
-        {age}
-        <button onClick={click}>Delete</button>
-        <input
-          type="text"
-          ref={(input) => {
-            this.inputElement = input;
-          }}
-        />
-      </Auxilliary>
+      <AuthContext.Consumer>
+        {(context) => (
+          <Auxilliary>
+            <p>
+              Hello {name}.
+              {context.authenticated ? "Authenticated" : "Please login"}
+            </p>
+            {age}
+            <button onClick={click}>Delete</button>
+            <input type="text" ref={this.inputElementRef} />
+          </Auxilliary>
+        )}
+      </AuthContext.Consumer>
     );
   }
 }

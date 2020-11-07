@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import classes from "./App.css";
 import Persons from "../components/Persons/Persons";
 import Cockpit from "../components/Cockpit/Cockpit";
+import AuthContext from "../context/auth-context";
 
 class App extends Component {
   constructor(props) {
@@ -15,6 +16,7 @@ class App extends Component {
       ],
       showPersons: false,
       showCockpit: true,
+      isAuthenticated: false,
     };
   }
 
@@ -58,9 +60,17 @@ class App extends Component {
     });
   };
 
+  loginHandler = () => {
+    this.setState((prevState) => {
+      return {
+        isAuthenticated: !prevState.isAuthenticated,
+      };
+    });
+  };
+
   //---------------------------------Render-------------------------------------
   render() {
-    const { showPersons, persons, showCockpit } = this.state;
+    const { showPersons, persons, showCockpit, isAuthenticated } = this.state;
 
     console.log("[App.js] render");
 
@@ -75,6 +85,7 @@ class App extends Component {
     };
     return (
       <div className={classes.App}>
+        <h2>{isAuthenticated ? "True" : "False"}</h2>
         {showCockpit ? (
           <button onClick={this.toggleCockpit} style={style}>
             Remove cockpit
@@ -84,17 +95,25 @@ class App extends Component {
             Show cockpit
           </button>
         )}
-        {showCockpit ? (
-          <Cockpit
-            persons={persons}
-            showPersons={showPersons}
-            style={style}
-            togglePersons={this.togglePersons}
-          />
-        ) : null}
-        {showPersons && showCockpit ? (
-          <Persons persons={persons} deletePerson={this.deletePerson} />
-        ) : null}
+        <AuthContext.Provider
+          value={{ authenticated: isAuthenticated, login: this.loginHandler }}
+        >
+          {showCockpit ? (
+            <Cockpit
+              persons={persons}
+              showPersons={showPersons}
+              style={style}
+              togglePersons={this.togglePersons}
+            />
+          ) : null}
+          {showPersons && showCockpit ? (
+            <Persons
+              persons={persons}
+              isAuth={isAuthenticated}
+              deletePerson={this.deletePerson}
+            />
+          ) : null}
+        </AuthContext.Provider>
       </div>
     );
   }

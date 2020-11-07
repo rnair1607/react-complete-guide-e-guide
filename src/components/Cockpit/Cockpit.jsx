@@ -1,13 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 
-const cockpit = ({ showPersons, style, togglePersons, persons }) => {
+import AuthContext from "../../context/auth-context";
+
+const cockpit = ({ showPersons, style, togglePersons, persons, login }) => {
+  const toggleBtnRef = useRef(null);
+
   // ----------------------------useEffect React hook-------------------------------
   useEffect(() => {
     console.log("[Cockpit.js] 1st useEffect()");
     // can be used to send HTTP Requests
-    setTimeout(() => {
-      // alert("Saved data to cloud!");
-    }, 1000);
+    // setTimeout(() => {
+    // alert("Saved data to cloud!");
+    // }, 1000);
+    toggleBtnRef.current.click();
+
     return () => {
       console.log("[cockpit.js] clean up in 1st useEffect()");
     };
@@ -25,14 +31,17 @@ const cockpit = ({ showPersons, style, togglePersons, persons }) => {
     <React.Fragment>
       <h1>Hi, I'm React App</h1>
       {showPersons ? (
-        <button style={style} onClick={togglePersons}>
+        <button ref={toggleBtnRef} style={style} onClick={togglePersons}>
           Hide
         </button>
       ) : (
-        <button style={style} onClick={togglePersons}>
+        <button ref={toggleBtnRef} style={style} onClick={togglePersons}>
           Show
         </button>
       )}
+      <AuthContext.Consumer>
+        {(context) => <button onClick={context.login}>log in</button>}
+      </AuthContext.Consumer>
     </React.Fragment>
   );
 };
