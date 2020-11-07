@@ -1,7 +1,9 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
+
 import classes from "./Person.css";
 import Auxilliary from "../../../hoc/Auxilliary";
-import WithClass from "../../../hoc/WithClass";
+import withClass from "../../../hoc/WithClass";
 
 class Person extends Component {
   constructor(props) {
@@ -16,18 +18,34 @@ class Person extends Component {
     return state;
   }
 
+  componentDidMount() {
+    this.inputElement.focus();
+  }
+
   //---------------------------------Render-------------------------------------
   render() {
     const { name, age, click } = this.props;
     console.log("[Person.js] rendering");
     return (
-      <WithClass classes={classes.Person}>
+      <Auxilliary>
         <p>Hello {name}.</p>
         {age}
         <button onClick={click}>Delete</button>
-      </WithClass>
+        <input
+          type="text"
+          ref={(input) => {
+            this.inputElement = input;
+          }}
+        />
+      </Auxilliary>
     );
   }
 }
 
-export default Person;
+Person.propTypes = {
+  click: PropTypes.func,
+  age: PropTypes.number,
+  name: PropTypes.string,
+};
+
+export default withClass(Person, classes.Person);
