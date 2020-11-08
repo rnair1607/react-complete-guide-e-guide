@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 
 import AuthContext from "../../context/auth-context";
 
 const cockpit = ({ showPersons, style, togglePersons, persons, login }) => {
   const toggleBtnRef = useRef(null);
+  const authContext = useContext(AuthContext);
 
   // ----------------------------useEffect React hook-------------------------------
   useEffect(() => {
@@ -39,9 +40,15 @@ const cockpit = ({ showPersons, style, togglePersons, persons, login }) => {
           Show
         </button>
       )}
-      <AuthContext.Consumer>
-        {(context) => <button onClick={context.login}>log in</button>}
-      </AuthContext.Consumer>
+      {authContext.authenticated ? (
+        <button onClick={authContext.login} style={style}>
+          Log out
+        </button>
+      ) : (
+        <button onClick={authContext.login} style={style}>
+          Log in
+        </button>
+      )}
     </React.Fragment>
   );
 };

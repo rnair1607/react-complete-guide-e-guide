@@ -13,6 +13,8 @@ class Person extends Component {
     this.state = {};
   }
 
+  static contextType = AuthContext;
+
   // ----------------------------LifeCycle hooks-------------------------------
   static getDerivedStateFromProps(props, state) {
     console.log("[Person.js] getDerivedStateFromProps", props);
@@ -22,26 +24,23 @@ class Person extends Component {
   componentDidMount() {
     // this.inputElement.focus();
     this.inputElementRef.current.focus();
+    console.log(`Context: ${this.context.authenticated}`);
   }
 
   //---------------------------------Render-------------------------------------
   render() {
     const { name, age, click, isAuth } = this.props;
+    const { authenticated } = this.context;
     console.log("[Person.js] rendering");
     return (
-      <AuthContext.Consumer>
-        {(context) => (
-          <Auxilliary>
-            <p>
-              Hello {name}.
-              {context.authenticated ? "Authenticated" : "Please login"}
-            </p>
-            {age}
-            <button onClick={click}>Delete</button>
-            <input type="text" ref={this.inputElementRef} />
-          </Auxilliary>
-        )}
-      </AuthContext.Consumer>
+      <Auxilliary>
+        <p>
+          Hello {name}.{authenticated ? "Authenticated" : "Please login"}
+        </p>
+        {age}
+        <button onClick={click}>Delete</button>
+        <input type="text" ref={this.inputElementRef} />
+      </Auxilliary>
     );
   }
 }
